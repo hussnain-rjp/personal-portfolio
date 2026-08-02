@@ -138,7 +138,7 @@
         // Setup certificate modal trigger logic and bind dynamic achievements & experience list
         document.addEventListener("DOMContentLoaded", () => {
             // Bind Dynamic Achievements lists
-            const data = JSON.parse(localStorage.getItem('portfolioData'));
+            const data = getPortfolioData();
             if (data) {
                 const listContainer = document.getElementById("achievements-list-container");
                 if (listContainer && data.achievements && data.achievements.length > 0) {

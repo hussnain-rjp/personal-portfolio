@@ -138,7 +138,7 @@
     <script src="js/main.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const data = JSON.parse(localStorage.getItem('portfolioData'));
+            const data = getPortfolioData();
             if (!data) return;
 
             // 1. Render educational timelines

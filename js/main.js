@@ -1,5 +1,6 @@
 // Default Portfolio Data for Muhammad Hussnain Akram
 const defaultPortfolioData = {
+    lastUpdated: 1722648000000,
     profile: {
         name: "Muhammad Hussnain Akram",
         title: "Full-Stack Developer",
@@ -159,6 +160,15 @@ function getPortfolioData() {
         return defaultPortfolioData;
     }
     let data = JSON.parse(dataStr);
+    
+    // Check if defaultPortfolioData has a newer timestamp than the saved local storage data
+    const codeUpdatedTime = defaultPortfolioData.lastUpdated || 0;
+    const localUpdatedTime = data.lastUpdated || 0;
+    
+    if (codeUpdatedTime > localUpdatedTime) {
+        localStorage.setItem('portfolioData', JSON.stringify(defaultPortfolioData));
+        return defaultPortfolioData;
+    }
     
     // Defensively merge schema updates if they don't exist in local storage
     let updated = false;
@@ -426,3 +436,10 @@ function setupTheme() {
         localStorage.setItem("theme", activeTheme);
     });
 }
+
+// Sync cross-tab updates automatically
+window.addEventListener('storage', (e) => {
+    if (e.key === 'portfolioData') {
+        window.location.reload();
+    }
+});

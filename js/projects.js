@@ -2,7 +2,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
     // 1. Get database records
-    const data = JSON.parse(localStorage.getItem('portfolioData'));
+    const data = getPortfolioData();
     if (!data || !data.projects) return;
 
     const projectsGrid = document.getElementById("projects-grid");
@@ -153,7 +153,7 @@ function setupModalOverlay() {
 
 // Open modal and load detail fields
 function openProjectModal(id) {
-    const data = JSON.parse(localStorage.getItem('portfolioData'));
+    const data = getPortfolioData();
     const project = data.projects.find(p => p.id === id);
     if (!project) return;
 

@@ -113,7 +113,7 @@
     <script>
         // Render 3 featured projects in teaser section
         document.addEventListener("DOMContentLoaded", () => {
-            const data = JSON.parse(localStorage.getItem('portfolioData'));
+            const data = getPortfolioData();
             if (!data || !data.projects) return;
 
             const grid = document.getElementById("teaser-projects-grid");
