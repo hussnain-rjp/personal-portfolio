@@ -154,8 +154,8 @@ function setupModalOverlay() {
 }
 
 // Open modal and load detail fields
-function openProjectModal(id) {
-    const data = getPortfolioData();
+async function openProjectModal(id) {
+    const data = await getPortfolioData();
     const project = data.projects.find(p => p.id === id);
     if (!project) return;
 
@@ -189,14 +189,14 @@ function openProjectModal(id) {
     const demoBtn = modal.querySelector(".modal-demo-btn");
     const codeBtn = modal.querySelector(".modal-code-btn");
     
-    if (project.demoLink && project.demoLink !== "#") {
+    if (project.demoLink && project.demoLink.trim() !== "" && project.demoLink !== "#") {
         demoBtn.href = project.demoLink;
         demoBtn.style.display = "inline-flex";
     } else {
         demoBtn.style.display = "none";
     }
     
-    if (project.codeLink && project.codeLink !== "#") {
+    if (project.codeLink && project.codeLink.trim() !== "" && project.codeLink !== "#") {
         codeBtn.href = project.codeLink;
         codeBtn.style.display = "inline-flex";
     } else {
