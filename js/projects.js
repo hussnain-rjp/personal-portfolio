@@ -43,9 +43,11 @@ function renderProjects(projects, activeCategory) {
         card.dataset.id = project.id;
         
         // Check if there's a real thumbnail, or use gradient style
-        const imageHtml = project.image && project.image !== "placeholder"
+        const hasImage = project.image && project.image !== "placeholder";
+        const imageHtml = hasImage
             ? `<img src="${project.image}" alt="${project.title}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">`
             : "";
+        const displayStyle = hasImage ? "none" : "flex";
             
         const fallbackGradient = project.gradient || "linear-gradient(135deg, var(--accent-indigo), var(--accent-cyan))";
 
@@ -57,7 +59,7 @@ function renderProjects(projects, activeCategory) {
         card.innerHTML = `
             <div class="project-card-image" style="background: ${fallbackGradient}">
                 ${imageHtml}
-                <div class="fallback-overlay" style="position: absolute; top:0; left:0; width:100%; height:100%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-family: var(--font-heading); font-size: 1.5rem; color: #ffffff; text-shadow: 0 2px 5px rgba(0,0,0,0.3); text-transform: uppercase;">
+                <div class="fallback-overlay" style="position: absolute; top:0; left:0; width:100%; height:100%; display: ${displayStyle}; align-items: center; justify-content: center; font-weight: 800; font-family: var(--font-heading); font-size: 1.5rem; color: #ffffff; text-shadow: 0 2px 5px rgba(0,0,0,0.3); text-transform: uppercase;">
                     ${project.title.split(' ').slice(0, 2).map(w => w[0]).join('')}
                 </div>
             </div>

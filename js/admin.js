@@ -127,7 +127,44 @@ function fillFormFields(data) {
     document.getElementById("resume-experience").value = data.experience.map(e => `${e.role} | ${e.company} | ${e.period} | ${e.details}`).join("\n");
 }
 
-// Image upload triggers to Base64 converters
+// Helper to compress and resize images to fit in localStorage and prevent export bloat
+function compressAndResizeImage(file, maxWidth, maxHeight, callback) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+            const canvas = document.createElement("canvas");
+            let width = img.width;
+            let height = img.height;
+
+            if (width > height) {
+                if (width > maxWidth) {
+                    height = Math.round((height * maxWidth) / width);
+                    width = maxWidth;
+                }
+            } else {
+                if (height > maxHeight) {
+                    width = Math.round((width * maxHeight) / height);
+                    height = maxHeight;
+                }
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
+
+            // Compress to JPEG with 0.7 quality
+            const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.7);
+            callback(compressedDataUrl);
+        };
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+
+// Image upload triggers to Base64 converters and compressors
 function setupImageUploaders() {
     const profileUpload = document.getElementById("profile-img-upload");
     const profileUrl = document.getElementById("profile-img-url");
@@ -143,12 +180,10 @@ function setupImageUploaders() {
         profileUpload.addEventListener("change", (e) => {
             const file = e.target.files[0];
             if (file) {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    profileUrl.value = event.target.result;
-                    profilePreview.src = event.target.result;
-                };
-                reader.readAsDataURL(file);
+                compressAndResizeImage(file, 400, 400, (compressedUrl) => {
+                    profileUrl.value = compressedUrl;
+                    profilePreview.src = compressedUrl;
+                });
             }
         });
     }
@@ -165,14 +200,12 @@ function setupImageUploaders() {
         projUpload.addEventListener("change", (e) => {
             const file = e.target.files[0];
             if (file) {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    projUrl.value = event.target.result;
-                    projPreview.src = event.target.result;
+                compressAndResizeImage(file, 800, 500, (compressedUrl) => {
+                    projUrl.value = compressedUrl;
+                    projPreview.src = compressedUrl;
                     projPreview.style.display = "block";
                     if (projFallback) projFallback.style.display = "none";
-                };
-                reader.readAsDataURL(file);
+                });
             }
         });
     }
@@ -277,9 +310,14 @@ function setupSaveHandlers(data) {
 
 // Helper to save state with updated timestamp
 function saveAdminData(data) {
-    data.lastUpdated = Date.now();
-    localStorage.setItem("portfolioData", JSON.stringify(data));
-    updateExportCode(data);
+    try {
+        data.lastUpdated = Date.now();
+        localStorage.setItem("portfolioData", JSON.stringify(data));
+        updateExportCode(data);
+    } catch (e) {
+        console.error("Storage error:", e);
+        alert("Failed to save changes. Your browser's storage may be full.");
+    }
 }
 
 // Sync back state
