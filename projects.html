@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects Catalog | Muhammad Hussnain Akram</title>
+    <meta name="description" content="View personal, academic, and freelance projects developed by Muhammad Hussnain Akram including Laravel APIs, React Native apps, and Python scripts.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Background Gradient Glows & Doodles -->
+    <div class="bg-glow"></div>
+    <div class="bg-doodles">
+        <div class="doodle doodle-grid"></div>
+        <div class="doodle doodle-dots"></div>
+        <div class="doodle doodle-circle-1"></div>
+        <div class="doodle doodle-circle-2"></div>
+        <div class="doodle doodle-bracket-1">&lt;/&gt;</div>
+        <div class="doodle doodle-bracket-2">{ }</div>
+    </div>
+
+    <!-- Header Navigation Bar -->
+    <header class="navbar"></header>
+
+    <!-- Main Container -->
+    <main class="container">
+        <!-- Section Header -->
+        <section class="section-header animate-fade-in">
+            <span class="section-subtitle">Portfolio Catalog</span>
+            <h1 class="section-title">My Projects</h1>
+        </section>
+
+        <!-- Category Filters -->
+        <div class="filter-tabs animate-fade-in" id="filter-tabs" style="animation-delay: 0.1s;">
+            <!-- Rendered dynamically by projects.js -->
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="projects-grid animate-fade-in" id="projects-grid" style="animation-delay: 0.2s;">
+            <!-- Rendered dynamically by projects.js -->
+        </div>
+    </main>
+
+    <!-- Project details Modal Viewer -->
+    <div class="modal-overlay" id="project-modal">
+        <div class="modal-container animate-fade-in">
+            <button class="modal-close-btn" aria-label="Close modal">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div class="modal-image">
+                <img src="" alt="Project Image Details" class="modal-img-tag">
+            </div>
+            <div class="modal-body">
+                <div class="modal-tags"></div>
+                <h3 class="modal-title">Project Title</h3>
+                <p class="modal-desc">Detailed description of the project.</p>
+                <div class="modal-footer">
+                    <div class="btn-group">
+                        <a href="#" class="btn btn-primary modal-demo-btn" target="_blank">Live Demo</a>
+                        <a href="#" class="btn btn-secondary modal-code-btn" target="_blank">View Code</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Area -->
+    <footer class="footer"></footer>
+
+    <!-- Core Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/projects.js"></script>
+</body>
+</html>

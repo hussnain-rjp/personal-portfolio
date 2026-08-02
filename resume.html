@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume & Experience | Muhammad Hussnain Akram</title>
+    <meta name="description" content="Professional experience, academic achievements, and official certifications of Muhammad Hussnain Akram. View or download the PDF resume.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Background Gradient Glows & Doodles -->
+    <div class="bg-glow"></div>
+    <div class="bg-doodles">
+        <div class="doodle doodle-grid"></div>
+        <div class="doodle doodle-dots"></div>
+        <div class="doodle doodle-circle-1"></div>
+        <div class="doodle doodle-circle-2"></div>
+        <div class="doodle doodle-bracket-1">&lt;/&gt;</div>
+        <div class="doodle doodle-bracket-2">{ }</div>
+    </div>
+
+    <!-- Header Navigation Bar -->
+    <header class="navbar"></header>
+
+    <!-- Main Container -->
+    <main class="container animate-fade-in">
+        <!-- Section Header -->
+        <section class="section-header">
+            <span class="section-subtitle">Qualifications</span>
+            <h1 class="section-title">Resume & Experience</h1>
+        </section>
+
+        <!-- Work Experience Timeline -->
+        <section style="margin-bottom: 5rem;">
+            <h2 class="about-section-title">Professional Experience</h2>
+            <div class="timeline" id="experience-timeline-container">
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-date">2024 – 2025</div>
+                    <h3 class="timeline-title">Web Development Workshop Organizer</h3>
+                    <div class="timeline-subtitle">University of Engineering and Technology (UET), Lahore</div>
+                    <div class="timeline-desc">
+                        <ul>
+                            <li>Planned and conducted hands-on web development workshops for junior students at UET Lahore.</li>
+                            <li>Covered WordPress Development in detail; prepared course material and exercise tasks.</li>
+                            <li>Received a formal certificate of recognition from IDS UET Lahore for leading these workshops.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Achievements Grid -->
+        <section style="margin-bottom: 5rem;">
+            <h2 class="about-section-title">Key Achievements</h2>
+            <div class="glass-card" style="padding: 2.5rem 3rem;">
+                <ul class="timeline-desc" id="achievements-list-container" style="padding-left: 0; font-size: 1.05rem;">
+                    <li>Certificate for Conducting Web Development Workshops — issued by IDS UET Lahore for organizing and leading technical workshops for junior students.</li>
+                    <li>Delivered two versions of The Gadgetz Hub website — one full-stack WordPress build and one pure HTML/CSS front-end rebuild.</li>
+                    <li>Built a fully functional Project Management System in Python using OOP and database integration.</li>
+                    <li>Developed a Career Path Advisor application in Python — a complete standalone CLI program.</li>
+                    <li>Currently developing with Laravel v11 and React Native CLI — actively expanding into full-stack and mobile development.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Achievements & Certifications Section -->
+        <section>
+            <h2 class="about-section-title">Official Certifications</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">Click on any certificate to view it in full resolution.</p>
+            
+            <div class="cert-grid">
+                <!-- Certificate 1: Power BI -->
+                <div class="glass-card cert-card" data-img="assets/images/cert-powerbi.jpg" data-title="Microsoft Power BI for Beginners & Excel Users">
+                    <div class="cert-thumbnail">
+                        <img src="assets/images/cert-powerbi.jpg" alt="Microsoft Power BI Certificate">
+                    </div>
+                    <h3>Microsoft Power BI for Beginners</h3>
+                    <span class="cert-issuer">Udemy (July 24, 2026)</span>
+                </div>
+
+                <!-- Certificate 2: Git -->
+                <div class="glass-card cert-card" data-img="assets/images/cert-git.jpg" data-title="Learn Git & GitHub in less than 3 hours (2026)">
+                    <div class="cert-thumbnail">
+                        <img src="assets/images/cert-git.jpg" alt="Git & GitHub Certificate">
+                    </div>
+                    <h3>Learn Git & GitHub</h3>
+                    <span class="cert-issuer">Udemy (July 24, 2026)</span>
+                </div>
+
+                <!-- Certificate 3: Claude Code -->
+                <div class="glass-card cert-card" data-img="assets/images/cert-claudecode.jpg" data-title="Claude Code 101 Certificate of Completion">
+                    <div class="cert-thumbnail">
+                        <img src="assets/images/cert-claudecode.jpg" alt="Claude Code 101 Certificate">
+                    </div>
+                    <h3>Claude Code 101</h3>
+                    <span class="cert-issuer">Anthropic (Completed 2026)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- PDF Resume Embed Section -->
+        <section class="pdf-viewer-section">
+            <h2 class="about-section-title">Resume PDF</h2>
+            <div class="pdf-viewer-container">
+                <iframe src="assets/resume.pdf" title="Muhammad Hussnain Akram Resume PDF"></iframe>
+            </div>
+            <div style="text-align: center;">
+                <a href="assets/resume.pdf" class="btn btn-primary" target="_blank" download>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Download PDF Resume
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Certificate Expand Modal Viewer -->
+    <div class="modal-overlay" id="cert-modal">
+        <div class="modal-container" style="max-width: 900px; max-height: 95vh;">
+            <button class="modal-close-btn" aria-label="Close modal" id="cert-close-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div class="modal-image" style="height: auto; max-height: 80vh; display: flex; align-items: center; justify-content: center; background: #000000; border-bottom: none;">
+                <img src="" alt="Full Certificate Image View" style="max-height: 80vh; object-fit: contain; width: auto;" id="cert-modal-img">
+            </div>
+            <div class="modal-body" style="padding: 1.5rem 2.5rem; text-align: center;">
+                <h3 id="cert-modal-title" style="font-size: 1.35rem; margin-bottom: 0;">Certificate Title</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Area -->
+    <footer class="footer"></footer>
+
+    <!-- Core Scripts -->
+    <script src="js/main.js"></script>
+    <script>
+        // Setup certificate modal trigger logic and bind dynamic achievements & experience list
+        document.addEventListener("DOMContentLoaded", () => {
+            // Bind Dynamic Achievements lists
+            const data = JSON.parse(localStorage.getItem('portfolioData'));
+            if (data) {
+                const listContainer = document.getElementById("achievements-list-container");
+                if (listContainer && data.achievements && data.achievements.length > 0) {
+                    listContainer.innerHTML = data.achievements.map(ach => 
+                        `<li>${ach}</li>`
+                    ).join("");
+                }
+
+                // Bind Dynamic Experience timeline
+                const expContainer = document.getElementById("experience-timeline-container");
+                if (expContainer && data.experience && data.experience.length > 0) {
+                    expContainer.innerHTML = data.experience.map(exp => `
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-date">${exp.period}</div>
+                            <h3 class="timeline-title">${exp.role}</h3>
+                            <div class="timeline-subtitle">${exp.company}</div>
+                            <div class="timeline-desc">
+                                <ul>
+                                    ${exp.details.split(";").map(d => `<li>${d.trim()}</li>`).join("")}
+                                </ul>
+                            </div>
+                        </div>
+                    `).join("");
+                }
+            }
+
+            // Cert Modal triggers
+            const certModal = document.getElementById("cert-modal");
+            const modalImg = document.getElementById("cert-modal-img");
+            const modalTitle = document.getElementById("cert-modal-title");
+            const closeBtn = document.getElementById("cert-close-btn");
+
+            document.querySelectorAll(".cert-card").forEach(card => {
+                card.addEventListener("click", () => {
+                    const imgSrc = card.dataset.img;
+                    const titleText = card.dataset.title;
+
+                    modalImg.src = imgSrc;
+                    modalTitle.innerText = titleText;
+                    
+                    certModal.classList.add("active");
+                    document.body.style.overflow = "hidden";
+                });
+            });
+
+            const closeCertModal = () => {
+                certModal.classList.remove("active");
+                document.body.style.overflow = "auto";
+            };
+
+            if (closeBtn) closeBtn.addEventListener("click", closeCertModal);
+            
+            certModal.addEventListener("click", (e) => {
+                if (e.target === certModal) {
+                    closeCertModal();
+                }
+            });
+
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape" && certModal.classList.contains("active")) {
+                    closeCertModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

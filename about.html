@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me | Muhammad Hussnain Akram</title>
+    <meta name="description" content="Learn more about Muhammad Hussnain Akram, a BS Data Science student and Full-Stack Developer based in Lahore, Pakistan.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Background Gradient Glows & Doodles -->
+    <div class="bg-glow"></div>
+    <div class="bg-doodles">
+        <div class="doodle doodle-grid"></div>
+        <div class="doodle doodle-dots"></div>
+        <div class="doodle doodle-circle-1"></div>
+        <div class="doodle doodle-circle-2"></div>
+        <div class="doodle doodle-bracket-1">&lt;/&gt;</div>
+        <div class="doodle doodle-bracket-2">{ }</div>
+    </div>
+
+    <!-- Header Navigation Bar -->
+    <header class="navbar"></header>
+
+    <!-- Main Container -->
+    <main class="container">
+        <div class="about-wrapper">
+            <!-- Left Sticky Bio -->
+            <div class="about-info-sticky animate-fade-in">
+                <span class="section-subtitle">Biography</span>
+                <h1 class="section-title">About Me</h1>
+                <div class="about-bio" style="margin-top: 2rem;">
+                    <h2>Passionate Data Science Student & Developer</h2>
+                    <p class="dyn-profile-bio">
+                        BS Data Science student at UET Lahore with practical experience across the full development stack — from HTML/CSS front-ends and WordPress sites to Laravel v11 back-end systems, React Native mobile apps, and Python-based applications with OOP and database integration.
+                    </p>
+                    <p>
+                        I love solving analytical problems through code, combining the computational rigor of data science with the creative, building aspect of full-stack engineering.
+                    </p>
+                    <p>
+                        Whether designing MVC backend APIs or deploying responsive mobile applications, my focus is always on performance, clean structure, and delivering real value.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right Timeline & Skills Sections -->
+            <div class="about-sections animate-fade-in" style="animation-delay: 0.2s;">
+                <!-- Education Timeline Section -->
+                <section>
+                    <h3 class="about-section-title">Education</h3>
+                    <div class="timeline" id="education-timeline-container">
+                        <!-- Dynamic Education items or Fallbacks -->
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-date">2025 – Present</div>
+                            <h4 class="timeline-title">BS Data Science</h4>
+                            <div class="timeline-subtitle">University of Engineering and Technology (UET), Lahore</div>
+                            <p class="timeline-desc">Currently enrolled in a 4-year undergraduate program focused on data science, programming, and applied computing.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-date">Completed 2024</div>
+                            <h4 class="timeline-title">Intermediate (Pre-Engineering / ICS)</h4>
+                            <div class="timeline-subtitle">Punjab Group of Colleges (PGC), Lahore</div>
+                            <p class="timeline-desc">Completed intermediate studies with a foundation in mathematics, computing, and sciences.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Technical Skills Section -->
+                <section id="skills-section-container">
+                    <h3 class="about-section-title">Technical Skills</h3>
+                    
+                    <div class="skills-category">
+                        <h4>Languages</h4>
+                        <div class="skills-grid" id="skills-lang-grid">
+                            <span class="skill-tag">HTML5</span>
+                            <span class="skill-tag">CSS3</span>
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">PHP</span>
+                            <span class="skill-tag">MySQL</span>
+                        </div>
+                    </div>
+
+                    <div class="skills-category">
+                        <h4>Frameworks & Mobile</h4>
+                        <div class="skills-grid">
+                            <span class="skill-tag">Laravel v11 (Back-End)</span>
+                            <span class="skill-tag">React Native CLI (Mobile)</span>
+                        </div>
+                    </div>
+
+                    <div class="skills-category">
+                        <h4>CMS & Design</h4>
+                        <div class="skills-grid">
+                            <span class="skill-tag">WordPress (Full-Stack)</span>
+                            <span class="skill-tag">Canva</span>
+                            <span class="skill-tag">Power BI</span>
+                        </div>
+                    </div>
+
+                    <div class="skills-category">
+                        <h4>Version Control & DevOps</h4>
+                        <div class="skills-grid">
+                            <span class="skill-tag">Git / GitHub</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Workshop Organizing Section -->
+                <section>
+                    <h3 class="about-section-title">Activities & Initiatives</h3>
+                    <div class="timeline" id="activities-timeline-container">
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-date">2024 – 2025</div>
+                            <h4 class="timeline-title">Web Development Workshop Organizer</h4>
+                            <div class="timeline-subtitle">UET Lahore — Student-Led Initiative</div>
+                            <div class="timeline-desc">
+                                <ul>
+                                    <li>Planned and conducted hands-on web development workshops for junior students.</li>
+                                    <li>Covered WordPress Development in detail; prepared course material and exercise guides.</li>
+                                    <li>Received a formal certificate of recognition from IDS UET Lahore for leading these workshops.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Area -->
+    <footer class="footer"></footer>
+
+    <!-- Core Scripts -->
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const data = JSON.parse(localStorage.getItem('portfolioData'));
+            if (!data) return;
+
+            // 1. Render educational timelines
+            if (data.education && data.education.length > 0) {
+                const container = document.getElementById("education-timeline-container");
+                if (container) {
+                    container.innerHTML = "";
+                    data.education.forEach(edu => {
+                        const div = document.createElement("div");
+                        div.className = "timeline-item";
+                        div.innerHTML = `
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-date">${edu.period}</div>
+                            <h4 class="timeline-title">${edu.degree}</h4>
+                            <div class="timeline-subtitle">${edu.institution}</div>
+                            <p class="timeline-desc">${edu.details}</p>
+                        `;
+                        container.appendChild(div);
+                    });
+                }
+            }
+
+            // 2. Render categorized skills
+            if (data.skills) {
+                const skillsSection = document.getElementById("skills-section-container");
+                if (skillsSection) {
+                    skillsSection.innerHTML = `<h3 class="about-section-title">Technical Skills</h3>`;
+                    
+                    const categories = {};
+                    data.skills.forEach(skill => {
+                        const cat = skill.category || "Languages";
+                        if (!categories[cat]) categories[cat] = [];
+                        categories[cat].push(skill.name);
+                    });
+
+                    Object.keys(categories).forEach(cat => {
+                        const div = document.createElement("div");
+                        div.className = "skills-category";
+                        div.innerHTML = `
+                            <h4>${cat}</h4>
+                            <div class="skills-grid">
+                                ${categories[cat].map(s => `<span class="skill-tag">${s}</span>`).join("")}
+                            </div>
+                        `;
+                        skillsSection.appendChild(div);
+                    });
+                }
+            }
+
+            // 3. Render experiences / activities timeline
+            if (data.experience) {
+                const container = document.getElementById("activities-timeline-container");
+                if (container) {
+                    container.innerHTML = data.experience.map(exp => `
+                        <div class="timeline-item">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-date">${exp.period}</div>
+                            <h4 class="timeline-title">${exp.role}</h4>
+                            <div class="timeline-subtitle">${exp.company}</div>
+                            <div class="timeline-desc">
+                                <ul>
+                                    ${exp.details.split(";").map(d => `<li>${d.trim()}</li>`).join("")}
+                                </ul>
+                            </div>
+                        </div>
+                    `).join("");
+                }
+            }
+        });
+    </script>
+</body>
+</html>

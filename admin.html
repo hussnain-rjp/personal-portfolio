@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Portfolio Settings</title>
+    <meta name="description" content="Secret Admin Dashboard page to modify portfolio content locally.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Background Gradient Glows & Doodles -->
+    <div class="bg-glow"></div>
+    <div class="bg-doodles">
+        <div class="doodle doodle-grid"></div>
+        <div class="doodle doodle-dots"></div>
+        <div class="doodle doodle-circle-1"></div>
+        <div class="doodle doodle-circle-2"></div>
+        <div class="doodle doodle-bracket-1">&lt;/&gt;</div>
+        <div class="doodle doodle-bracket-2">{ }</div>
+    </div>
+
+    <!-- Header Navigation Bar -->
+    <header class="navbar"></header>
+
+    <!-- Main Container -->
+    <main class="container">
+        <!-- Secret Lock screen Gate -->
+        <section class="admin-login-wrapper" id="admin-login-wrapper">
+            <div class="glass-card admin-login-card animate-fade-in">
+                <div class="admin-login-lock-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                </div>
+                <h1 style="font-size: 1.75rem; margin-bottom: 0.5rem;">Access Gate</h1>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem;">Please enter password to unlock site content editor.</p>
+                
+                <form id="admin-password-form">
+                    <div class="form-group" style="margin-bottom: 1.5rem;">
+                        <input type="password" id="admin-password" class="form-control" style="text-align: center;" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Authenticate</button>
+                    <div id="login-status" class="form-status" style="margin-top: 1rem;"></div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Admin Control Dashboard Container -->
+        <section class="admin-dashboard-container animate-fade-in" id="admin-dashboard-container" style="display: none;">
+            <!-- Sidebar Panel -->
+            <aside class="admin-sidebar">
+                <h2 style="font-size: 1.2rem; margin-bottom: 1.5rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Editor Sections</h2>
+                <ul class="admin-menu">
+                    <li class="admin-menu-item active" data-target="admin-hero-section">Hero & Profile</li>
+                    <li class="admin-menu-item" data-target="admin-projects-section">Projects CRUD</li>
+                    <li class="admin-menu-item" data-target="admin-resume-section">Skills, Education & Experience</li>
+                    <li class="admin-menu-item" data-target="admin-contact-section">Contact / Social Links</li>
+                </ul>
+                <div style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                    <button class="btn btn-danger btn-small" style="width: 100%;" id="admin-logout-btn">Lock Dashboard</button>
+                </div>
+            </aside>
+
+            <!-- Configurations Forms panels -->
+            <div class="admin-main-content">
+                <!-- Section 1: Hero Settings -->
+                <div class="admin-content-section active" id="admin-hero-section">
+                    <div class="admin-section-header">
+                        <h2 style="font-size: 1.75rem;">Hero & Profile Details</h2>
+                    </div>
+                    <form id="admin-profile-form" class="glass-card">
+                        <div class="form-group">
+                            <label for="profile-logo" class="form-label">Logo Brand Text</label>
+                            <input type="text" id="profile-logo" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hero-name" class="form-label">Full Name</label>
+                            <input type="text" id="hero-name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hero-title" class="form-label">Role Title</label>
+                            <input type="text" id="hero-title" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hero-subtitle" class="form-label">Sub-Specialties (Header line)</label>
+                            <input type="text" id="hero-subtitle" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hero-tagline" class="form-label">Hero Tagline</label>
+                            <input type="text" id="hero-tagline" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="profile-bio" class="form-label">Biography Paragraph</label>
+                            <textarea id="profile-bio" class="form-control" required></textarea>
+                        </div>
+                        <div class="form-group" style="display: grid; grid-template-columns: 1fr auto; gap: 1.5rem; align-items: start; margin-bottom: 1.5rem;">
+                            <div>
+                                <label for="profile-img-upload" class="form-label">Profile Image (Upload Local File)</label>
+                                <input type="file" id="profile-img-upload" class="form-control" accept="image/*">
+                                <p style="font-size:0.8rem; color:var(--text-muted); margin: 0.4rem 0;">— OR —</p>
+                                <label for="profile-img-url" class="form-label">Profile Image URL / Path</label>
+                                <input type="text" id="profile-img-url" class="form-control" placeholder="assets/images/profile.png">
+                            </div>
+                            <div style="text-align: center;">
+                                <span class="form-label">Preview</span>
+                                <div style="width: 110px; height: 110px; border-radius: 50%; overflow: hidden; border: 2px solid var(--border-color); background: var(--bg-secondary);">
+                                    <img id="profile-img-preview" src="assets/images/profile.png" alt="Preview" style="width:100%; height:100%; object-fit:cover;">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Hero Details</button>
+                        <div id="profile-status" class="form-status"></div>
+                    </form>
+                </div>
+
+                <!-- Section 2: Projects manager -->
+                <div class="admin-content-section" id="admin-projects-section">
+                    <div class="admin-section-header">
+                        <h2 style="font-size: 1.75rem;">Project Items Manager</h2>
+                        <button class="btn btn-primary btn-small" id="admin-add-project-btn">+ Add New Project</button>
+                    </div>
+
+                    <!-- Dynamic form editor (hidden initially) -->
+                    <div id="project-form-section" class="glass-card" style="display: none; margin-bottom: 2rem; border-color: var(--accent-indigo);">
+                        <h3 id="project-form-title" style="margin-bottom: 1.5rem;">Add New Project</h3>
+                        <form id="proj-form">
+                            <input type="hidden" id="proj-id">
+                            
+                            <div class="form-group">
+                                <label for="proj-title" class="form-label">Project Title</label>
+                                <input type="text" id="proj-title" class="form-control" required>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div class="form-group">
+                                    <label for="proj-category" class="form-label">Category</label>
+                                    <select id="proj-category" class="form-control" style="background: var(--bg-secondary); color: var(--text-primary);" required>
+                                        <option value="web">Web Front-End</option>
+                                        <option value="mobile">React Native</option>
+                                        <option value="python">Python CLI</option>
+                                        <option value="wordpress">WordPress</option>
+                                    </select>
+                                </div>
+                            </div>
+                             <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 1rem; align-items: center; margin-bottom: 1.5rem;">
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label for="proj-gradient" class="form-label">Theme Gradient CSS (Optional)</label>
+                                    <input type="text" id="proj-gradient" class="form-control" placeholder="linear-gradient(135deg, #3b82f6, #06b6d4)">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center; padding-top: 1.5rem;">
+                                    <label class="form-label" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; margin-bottom: 0;">
+                                        <input type="checkbox" id="proj-featured" style="width: 18px; height: 18px; cursor: pointer;">
+                                        Feature on homepage
+                                    </label>
+                                </div>
+                            </div>
+
+                             <div class="form-group">
+                                <label for="proj-short" class="form-label">Short Tagline Description</label>
+                                <input type="text" id="proj-short" class="form-control" placeholder="Brief tagline sentence..." required>
+                            </div>
+                            <div class="form-group" style="display: grid; grid-template-columns: 1fr auto; gap: 1.5rem; align-items: start; margin-bottom: 1.5rem;">
+                                <div>
+                                    <label for="proj-img-upload" class="form-label">Project Image (Upload Local File)</label>
+                                    <input type="file" id="proj-img-upload" class="form-control" accept="image/*">
+                                    <p style="font-size:0.8rem; color:var(--text-muted); margin: 0.4rem 0;">— OR —</p>
+                                    <label for="proj-img-url" class="form-label">Project Image URL (Optional)</label>
+                                    <input type="text" id="proj-img-url" class="form-control" placeholder="https://example.com/screenshot.png">
+                                </div>
+                                <div style="text-align: center;">
+                                    <span class="form-label">Preview</span>
+                                    <div style="width: 140px; height: 85px; border-radius: var(--border-radius-sm); overflow: hidden; border: 1px solid var(--border-color); background: var(--bg-secondary); display: flex; align-items: center; justify-content: center;">
+                                        <img id="proj-img-preview" src="" alt="No image" style="width:100%; height:100%; object-fit:cover; display:none;">
+                                        <div id="proj-img-preview-fallback" style="font-weight:700; font-size:1.2rem; color:var(--text-muted);">P.I.</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="proj-desc" class="form-label">Complete Project Description</label>
+                                <textarea id="proj-desc" class="form-control" placeholder="Detailed breakdown of build..." required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="proj-tech" class="form-label">Technologies (comma-separated)</label>
+                                <input type="text" id="proj-tech" class="form-control" placeholder="React Native, Redux, API integration" required>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                                <div class="form-group">
+                                    <label for="proj-demo" class="form-label">Demo Link (use # if none)</label>
+                                    <input type="text" id="proj-demo" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="proj-code" class="form-label">GitHub Repository Link</label>
+                                    <input type="text" id="proj-code" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-primary">Save Project</button>
+                                <button type="button" class="btn btn-secondary" id="proj-cancel-btn">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Current Projects Table -->
+                    <div class="glass-card" style="padding: 1.5rem;">
+                        <h3 style="margin-bottom: 1rem; font-size: 1.2rem; color: var(--text-muted);">Existing Projects</h3>
+                        <div class="admin-table-wrapper">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Project Title</th>
+                                        <th>Category</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-projects-table-body">
+                                    <!-- Rendered dynamically by admin.js -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Resume timelines -->
+                <div class="admin-content-section" id="admin-resume-section">
+                    <div class="admin-section-header">
+                        <h2 style="font-size: 1.75rem;">Resume details, Timeline & Skills</h2>
+                    </div>
+                    <form id="admin-resume-form" class="glass-card">
+                        <div class="form-group">
+                            <label for="resume-skills" class="form-label">Technical Skills (One per line: Name | Category)</label>
+                            <textarea id="resume-skills" class="form-control" style="min-height: 150px;" placeholder="HTML5 | Languages&#10;Laravel v11 | Frameworks" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="resume-education" class="form-label">Education History (One per line: Degree | Institution | Period | Details)</label>
+                            <textarea id="resume-education" class="form-control" style="min-height: 150px;" placeholder="BS Data Science | UET Lahore | 2025 – Present | Currently enrolled..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="resume-experience" class="form-label">Work Experience / Activities (One per line: Role | Company | Period | Details split by semicolons)</label>
+                            <textarea id="resume-experience" class="form-control" style="min-height: 150px;" placeholder="Organizer | UET Lahore | 2024-2025 | Detail 1; Detail 2; Detail 3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="resume-achievements" class="form-label">Key Achievements (One per line)</label>
+                            <textarea id="resume-achievements" class="form-control" style="min-height: 150px;" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Resume details</button>
+                        <div id="resume-status" class="form-status"></div>
+                    </form>
+                </div>
+
+                <!-- Section 4: Contact settings -->
+                <div class="admin-content-section" id="admin-contact-section">
+                    <div class="admin-section-header">
+                        <h2 style="font-size: 1.75rem;">Contact & Profile URLs</h2>
+                    </div>
+                    <form id="admin-contact-form" class="glass-card">
+                        <div class="form-group">
+                            <label for="contact-email" class="form-label">Email Address</label>
+                            <input type="email" id="contact-email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-phone" class="form-label">Phone Number</label>
+                            <input type="text" id="contact-phone" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-location" class="form-label">Location</label>
+                            <input type="text" id="contact-location" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-linkedin" class="form-label">LinkedIn Profile URL</label>
+                            <input type="url" id="contact-linkedin" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-github" class="form-label">GitHub Profile URL</label>
+                            <input type="url" id="contact-github" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Details</button>
+                        <div id="contact-status" class="form-status"></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Area -->
+    <footer class="footer"></footer>
+
+    <!-- Core Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
