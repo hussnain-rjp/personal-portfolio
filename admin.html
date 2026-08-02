@@ -53,6 +53,7 @@
                     <li class="admin-menu-item" data-target="admin-projects-section">Projects CRUD</li>
                     <li class="admin-menu-item" data-target="admin-resume-section">Skills, Education & Experience</li>
                     <li class="admin-menu-item" data-target="admin-contact-section">Contact / Social Links</li>
+                    <li class="admin-menu-item" data-target="admin-export-section">Export Code</li>
                 </ul>
                 <div style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
                     <button class="btn btn-danger btn-small" style="width: 100%;" id="admin-logout-btn">Lock Dashboard</button>
@@ -278,6 +279,37 @@
                         <button type="submit" class="btn btn-primary">Save Details</button>
                         <div id="contact-status" class="form-status"></div>
                     </form>
+                </div>
+
+                <!-- Section 5: Export Code -->
+                <div class="admin-content-section" id="admin-export-section">
+                    <div class="admin-section-header">
+                        <h2 style="font-size: 1.75rem;">Export Changes to Source Code</h2>
+                        <p style="color: var(--text-muted); margin-top: 0.5rem;">Since this portfolio is static and deployed to Vercel, edits made in this admin dashboard are saved only in your local browser storage. To apply these edits permanently for all visitors and across all browsers, you need to copy the configuration below and replace the default data inside <code>js/main.js</code>.</p>
+                    </div>
+                    <div class="glass-card">
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+                                Updated defaultPortfolioData Code
+                                <button type="button" class="btn btn-secondary btn-small" id="btn-copy-export" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Copy Code</button>
+                            </label>
+                            <textarea id="export-code-textarea" class="form-control" style="min-height: 350px; font-family: monospace; font-size: 0.85rem;" readonly></textarea>
+                        </div>
+                        <div class="alert alert-info" style="padding: 1.25rem; border-radius: var(--border-radius-sm); border: 1px solid var(--border-color); background: var(--surface-secondary);">
+                            <h4 style="margin-bottom: 0.75rem; font-size: 0.95rem; display: flex; align-items: center; gap: 0.5rem; color: var(--accent-cyan);">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-cyan);"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                                How to Apply:
+                            </h4>
+                            <ol style="margin-left: 1.25rem; font-size: 0.85rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.4rem;">
+                                <li>Click the <strong>Copy Code</strong> button above.</li>
+                                <li>Open <strong>js/main.js</strong> in your editor.</li>
+                                <li>Select the entire <code>const defaultPortfolioData = { ... };</code> declaration at the top of the file (lines 2 to 152).</li>
+                                <li>Paste the copied code to overwrite it and save.</li>
+                                <li><strong>To update your profile picture permanently:</strong> replace the image file <code>assets/images/profile.png</code> on your computer with your new picture (make sure it is named <code>profile.png</code>).</li>
+                                <li>Commit your changes and push to GitHub to deploy to Vercel!</li>
+                            </ol>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

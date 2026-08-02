@@ -86,6 +86,10 @@ function loadDashboard() {
     // Load and bind Projects CRUD
     renderAdminProjects(currentPortfolioData);
     setupProjectsCRUD(currentPortfolioData);
+
+    // Setup Export Code panel
+    updateExportCode(currentPortfolioData);
+    setupExportCopy();
 }
 
 // Bind active storage details to textareas and inputs
@@ -274,6 +278,7 @@ function setupSaveHandlers(data) {
 // Sync back state
 function saveDataState(data, statusElementId) {
     localStorage.setItem("portfolioData", JSON.stringify(data));
+    updateExportCode(data);
     const status = document.getElementById(statusElementId);
     if (status) {
         status.innerText = "Settings updated successfully!";
@@ -336,6 +341,7 @@ function setupProjectsCRUD(data) {
             if (confirm("Are you sure you want to delete this project?")) {
                 data.projects = data.projects.filter(p => p.id !== id);
                 localStorage.setItem("portfolioData", JSON.stringify(data));
+                updateExportCode(data);
                 renderAdminProjects(data);
                 
                 // Hide editor if we deleted the project that was open
@@ -442,9 +448,47 @@ function setupProjectsCRUD(data) {
             }
 
             localStorage.setItem("portfolioData", JSON.stringify(data));
+            updateExportCode(data);
             projFormSection.style.display = "none";
             renderAdminProjects(data);
             alert("Project saved successfully!");
+        });
+    }
+}
+
+// Dynamic Export Code Generator
+function updateExportCode(data) {
+    const exportTextarea = document.getElementById("export-code-textarea");
+    if (!exportTextarea || !data) return;
+
+    // Generate formatted defaultPortfolioData code
+    const formattedData = JSON.stringify(data, null, 4);
+    exportTextarea.value = `const defaultPortfolioData = ${formattedData};`;
+}
+
+// Bind Copy Code event listener
+function setupExportCopy() {
+    const copyBtn = document.getElementById("btn-copy-export");
+    const exportTextarea = document.getElementById("export-code-textarea");
+
+    if (copyBtn && exportTextarea) {
+        copyBtn.addEventListener("click", () => {
+            exportTextarea.select();
+            navigator.clipboard.writeText(exportTextarea.value).then(() => {
+                const originalText = copyBtn.innerText;
+                copyBtn.innerText = "Copied!";
+                copyBtn.style.background = "var(--accent-cyan)";
+                copyBtn.style.color = "#ffffff";
+                
+                setTimeout(() => {
+                    copyBtn.innerText = originalText;
+                    copyBtn.style.background = "";
+                    copyBtn.style.color = "";
+                }, 2000);
+            }).catch(err => {
+                console.error("Failed to copy export code: ", err);
+                alert("Failed to copy automatically. Please select all text and copy manually.");
+            });
         });
     }
 }
