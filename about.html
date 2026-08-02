@@ -137,8 +137,8 @@
     <!-- Core Scripts -->
     <script src="js/main.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const data = getPortfolioData();
+        document.addEventListener("DOMContentLoaded", async () => {
+            const data = await getPortfolioData();
             if (!data) return;
 
             // 1. Render educational timelines

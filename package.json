@@ -1,0 +1,9 @@
+{
+  "name": "personal-portfolio",
+  "version": "1.0.0",
+  "description": "Muhammad Hussnain Akram Personal Portfolio",
+  "main": "js/main.js",
+  "dependencies": {
+    "mongodb": "^6.8.0"
+  }
+}

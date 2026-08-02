@@ -1,8 +1,8 @@
 // Projects Dynamic Renderer & Modal Controller
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     // 1. Get database records
-    const data = getPortfolioData();
+    const data = await getPortfolioData();
     if (!data || !data.projects) return;
 
     const projectsGrid = document.getElementById("projects-grid");

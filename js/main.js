@@ -152,11 +152,29 @@ const defaultPortfolioData = {
     ]
 };
 
+let fetchedPortfolioData = null;
+
 // Initialize Database on Page Load (with Schema Merging for backward compatibility)
-function getPortfolioData() {
+async function getPortfolioData() {
+    if (fetchedPortfolioData) return fetchedPortfolioData;
+    
+    try {
+        const res = await fetch('/api/portfolio');
+        if (res.ok) {
+            const dbData = await res.json();
+            if (dbData && !dbData.defaultFallback) {
+                fetchedPortfolioData = dbData;
+                return dbData;
+            }
+        }
+    } catch (e) {
+        console.warn("Failed to fetch from MongoDB, checking local fallback:", e);
+    }
+
     let dataStr = localStorage.getItem('portfolioData');
     if (!dataStr) {
         localStorage.setItem('portfolioData', JSON.stringify(defaultPortfolioData));
+        fetchedPortfolioData = defaultPortfolioData;
         return defaultPortfolioData;
     }
     let data = JSON.parse(dataStr);
@@ -167,6 +185,7 @@ function getPortfolioData() {
     
     if (codeUpdatedTime > localUpdatedTime) {
         localStorage.setItem('portfolioData', JSON.stringify(defaultPortfolioData));
+        fetchedPortfolioData = defaultPortfolioData;
         return defaultPortfolioData;
     }
     
@@ -211,18 +230,21 @@ function getPortfolioData() {
     if (updated) {
         localStorage.setItem('portfolioData', JSON.stringify(data));
     }
+    
+    fetchedPortfolioData = data;
     return data;
 }
 
-// Save database state
+// Save database state locally
 function savePortfolioData(data) {
     localStorage.setItem('portfolioData', JSON.stringify(data));
+    fetchedPortfolioData = data;
 }
 
 // Global Core Script
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     // 1. Get Active Data
-    const portfolioData = getPortfolioData();
+    const portfolioData = await getPortfolioData();
     
     // 2. Render Shared Elements
     injectNavbar(portfolioData);

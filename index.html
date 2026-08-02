@@ -112,8 +112,8 @@
     <script src="js/projects.js"></script>
     <script>
         // Render 3 featured projects in teaser section
-        document.addEventListener("DOMContentLoaded", () => {
-            const data = getPortfolioData();
+        document.addEventListener("DOMContentLoaded", async () => {
+            const data = await getPortfolioData();
             if (!data || !data.projects) return;
 
             const grid = document.getElementById("teaser-projects-grid");

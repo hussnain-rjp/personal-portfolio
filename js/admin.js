@@ -32,6 +32,7 @@ function setupAdminAuth() {
             // Default Password check
             if (passwordInput === "hussnain123") {
                 sessionStorage.setItem("adminLoggedIn", "true");
+                sessionStorage.setItem("adminPassword", passwordInput);
                 loginWrapper.style.display = "none";
                 dashboardContainer.style.display = "grid";
                 loadDashboard();
@@ -309,14 +310,31 @@ function setupSaveHandlers(data) {
 }
 
 // Helper to save state with updated timestamp
-function saveAdminData(data) {
+async function saveAdminData(data) {
     try {
         data.lastUpdated = Date.now();
         localStorage.setItem("portfolioData", JSON.stringify(data));
         updateExportCode(data);
+
+        const passwordInput = document.getElementById("admin-password")?.value || sessionStorage.getItem("adminPassword") || "hussnain123";
+        const response = await fetch('/api/portfolio', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                password: passwordInput,
+                content: data
+            })
+        });
+
+        if (!response.ok) {
+            const errData = await response.json();
+            throw new Error(errData.error || "Failed to update database.");
+        }
     } catch (e) {
-        console.error("Storage error:", e);
-        alert("Failed to save changes. Your browser's storage may be full.");
+        console.error("Storage/Sync error:", e);
+        alert("Saved locally, but failed to sync to MongoDB database: " + e.message);
     }
 }
 
