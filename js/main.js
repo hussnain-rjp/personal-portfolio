@@ -155,84 +155,101 @@ const defaultPortfolioData = {
 let fetchedPortfolioData = null;
 
 // Initialize Database on Page Load (with Schema Merging for backward compatibility)
+// Initialize Database on Page Load (with Schema Merging for backward compatibility)
 async function getPortfolioData() {
     if (fetchedPortfolioData) return fetchedPortfolioData;
-    
+
+    // 1. Check local storage cache for instant rendering
+    let cachedDataStr = localStorage.getItem('portfolioData');
+    let cachedData = null;
+    if (cachedDataStr) {
+        try {
+            cachedData = JSON.parse(cachedDataStr);
+        } catch (e) {
+            console.error("Failed to parse cached portfolio data:", e);
+        }
+    }
+
+    // 2. Fetch fresh database data in the background (SWR pattern)
+    fetchPortfolioDataInBackground();
+
+    if (cachedData) {
+        fetchedPortfolioData = cachedData;
+        return cachedData;
+    }
+
+    // 3. Fallback to default code data if no cache exists yet
+    localStorage.setItem('portfolioData', JSON.stringify(defaultPortfolioData));
+    fetchedPortfolioData = defaultPortfolioData;
+    return defaultPortfolioData;
+}
+
+// Background validation helper (Stale-While-Revalidate)
+async function fetchPortfolioDataInBackground() {
     try {
         const res = await fetch('/api/portfolio');
         if (res.ok) {
             const dbData = await res.json();
             if (dbData && !dbData.defaultFallback) {
-                fetchedPortfolioData = dbData;
-                return dbData;
+                const cachedDataStr = localStorage.getItem('portfolioData');
+                let cachedData = null;
+                if (cachedDataStr) {
+                    cachedData = JSON.parse(cachedDataStr);
+                }
+
+                const dbTime = dbData.lastUpdated || 0;
+                const cacheTime = (cachedData && cachedData.lastUpdated) || 0;
+
+                // Only update cache and refresh if the DB data is strictly newer than cache
+                if (!cachedData || dbTime > cacheTime) {
+                    // Defensively merge schema updates if they don't exist in MongoDB data
+                    let data = dbData;
+                    let updated = false;
+                    if (!data.profile) { data.profile = defaultPortfolioData.profile; updated = true; }
+                    if (!data.profile.logo) { data.profile.logo = defaultPortfolioData.profile.logo; updated = true; }
+                    if (!data.profile.image) { data.profile.image = defaultPortfolioData.profile.image; updated = true; }
+                    if (!data.skills) { data.skills = defaultPortfolioData.skills; updated = true; }
+                    if (!data.education) { data.education = defaultPortfolioData.education; updated = true; }
+                    if (!data.experience) { data.experience = defaultPortfolioData.experience; updated = true; }
+                    if (!data.achievements) { data.achievements = defaultPortfolioData.achievements; updated = true; }
+                    if (!data.projects) { data.projects = defaultPortfolioData.projects; updated = true; }
+
+                    if (data.projects) {
+                        data.projects.forEach(p => {
+                            if (p.featured === undefined) {
+                                const defProj = defaultPortfolioData.projects.find(dp => dp.id === p.id);
+                                p.featured = defProj ? defProj.featured : false;
+                                updated = true;
+                            }
+                        });
+                    }
+
+                    if (data.profile && data.profile.subtitle && data.profile.subtitle.includes("Laravel")) {
+                        data.profile.subtitle = data.profile.subtitle.replace("Laravel | ", "").replace(" | Laravel", "").replace("Laravel", "");
+                        updated = true;
+                    }
+                    if (data.skills) {
+                        const originalLength = data.skills.length;
+                        data.skills = data.skills.filter(s => !s.name.toLowerCase().includes("laravel"));
+                        if (data.skills.length !== originalLength) updated = true;
+                    }
+                    if (data.projects) {
+                        const originalLength = data.projects.length;
+                        data.projects = data.projects.filter(p => p.id !== "laravel-backend" && !p.title.toLowerCase().includes("laravel"));
+                        if (data.projects.length !== originalLength) updated = true;
+                    }
+
+                    localStorage.setItem('portfolioData', JSON.stringify(data));
+                    fetchedPortfolioData = data;
+                    
+                    // Smoothly reload once to show updated changes
+                    window.location.reload();
+                }
             }
         }
     } catch (e) {
-        console.warn("Failed to fetch from MongoDB, checking local fallback:", e);
+        console.warn("Background fetch failed:", e);
     }
-
-    let dataStr = localStorage.getItem('portfolioData');
-    if (!dataStr) {
-        localStorage.setItem('portfolioData', JSON.stringify(defaultPortfolioData));
-        fetchedPortfolioData = defaultPortfolioData;
-        return defaultPortfolioData;
-    }
-    let data = JSON.parse(dataStr);
-    
-    // Check if defaultPortfolioData has a newer timestamp than the saved local storage data
-    const codeUpdatedTime = defaultPortfolioData.lastUpdated || 0;
-    const localUpdatedTime = data.lastUpdated || 0;
-    
-    if (codeUpdatedTime > localUpdatedTime) {
-        localStorage.setItem('portfolioData', JSON.stringify(defaultPortfolioData));
-        fetchedPortfolioData = defaultPortfolioData;
-        return defaultPortfolioData;
-    }
-    
-    // Defensively merge schema updates if they don't exist in local storage
-    let updated = false;
-    if (!data.profile) { data.profile = defaultPortfolioData.profile; updated = true; }
-    if (!data.profile.logo) { data.profile.logo = defaultPortfolioData.profile.logo; updated = true; }
-    if (!data.profile.image) { data.profile.image = defaultPortfolioData.profile.image; updated = true; }
-    if (!data.skills) { data.skills = defaultPortfolioData.skills; updated = true; }
-    if (!data.education) { data.education = defaultPortfolioData.education; updated = true; }
-    if (!data.experience) { data.experience = defaultPortfolioData.experience; updated = true; }
-    if (!data.achievements) { data.achievements = defaultPortfolioData.achievements; updated = true; }
-    if (!data.projects) { data.projects = defaultPortfolioData.projects; updated = true; }
-    
-    // Ensure existing projects have featured flag
-    if (data.projects) {
-        data.projects.forEach(p => {
-            if (p.featured === undefined) {
-                const defProj = defaultPortfolioData.projects.find(dp => dp.id === p.id);
-                p.featured = defProj ? defProj.featured : false;
-                updated = true;
-            }
-        });
-    }
-
-    // Active Migration: Scrub Laravel elements from existing local storage data
-    if (data.profile && data.profile.subtitle && data.profile.subtitle.includes("Laravel")) {
-        data.profile.subtitle = data.profile.subtitle.replace("Laravel | ", "").replace(" | Laravel", "").replace("Laravel", "");
-        updated = true;
-    }
-    if (data.skills) {
-        const originalLength = data.skills.length;
-        data.skills = data.skills.filter(s => !s.name.toLowerCase().includes("laravel"));
-        if (data.skills.length !== originalLength) updated = true;
-    }
-    if (data.projects) {
-        const originalLength = data.projects.length;
-        data.projects = data.projects.filter(p => p.id !== "laravel-backend" && !p.title.toLowerCase().includes("laravel"));
-        if (data.projects.length !== originalLength) updated = true;
-    }
-
-    if (updated) {
-        localStorage.setItem('portfolioData', JSON.stringify(data));
-    }
-    
-    fetchedPortfolioData = data;
-    return data;
 }
 
 // Save database state locally
