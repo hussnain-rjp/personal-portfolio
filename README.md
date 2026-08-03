@@ -18,10 +18,10 @@ This is a clean, modern, responsive multi-page personal portfolio website built 
 The Admin panel dashboard (`admin.html`) is hidden from public navigation:
 1. **Shortcut**: Press `Ctrl + Shift + A` (or `Cmd + Shift + A`) from any page to redirect instantly to the Admin gate.
 2. **Gesture**: Double-click or click 5 times on the navbar logo `MHA.Dev` (or the footer logo) within 3 seconds to trigger redirect.
-3. **Password Lock**: Authenticate using `hussnain123` to enter the dashboard settings.
+3. **Password Lock**: Authenticate using the password. By default, it is `musarahim` unless customized via the `ADMIN_PASSWORD` environment variable in Vercel.
 
 > [!WARNING]
-> This admin panel is a client-side database mock using `localStorage`. Edits made in the dashboard will reflect instantly in your local browser instance, but require integration with a database and server (e.g. Firebase, Node/Express, Laravel) for persistent changes to all visitors.
+> This admin panel is synced with a MongoDB Atlas database. Ensure you configure the `ADMIN_PASSWORD` and `MONGODB_URI` environment variables in Vercel to secure the panel and establish a secure database connection.
 
 ---
 

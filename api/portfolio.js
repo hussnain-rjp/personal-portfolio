@@ -46,12 +46,13 @@ module.exports = async (req, res) => {
         if (req.method === 'POST') {
             const { password, content } = req.body;
 
-            if (password !== 'hussnain123') {
+            const correctPassword = process.env.ADMIN_PASSWORD || 'musarahim';
+            if (password !== correctPassword) {
                 return res.status(401).json({ error: 'Unauthorized: Invalid password' });
             }
 
             if (!content) {
-                return res.status(400).json({ error: 'Missing content payload' });
+                return res.status(200).json({ success: true, verified: true });
             }
 
             await collection.updateOne(

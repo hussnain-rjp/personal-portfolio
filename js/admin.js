@@ -25,21 +25,41 @@ function setupAdminAuth() {
     }
 
     if (passwordForm) {
-        passwordForm.addEventListener("submit", (e) => {
+        passwordForm.addEventListener("submit", async (e) => {
             e.preventDefault();
             const passwordInput = document.getElementById("admin-password").value;
-            
-            // Default Password check
-            if (passwordInput === "hussnain123") {
-                sessionStorage.setItem("adminLoggedIn", "true");
-                sessionStorage.setItem("adminPassword", passwordInput);
-                loginWrapper.style.display = "none";
-                dashboardContainer.style.display = "grid";
-                loadDashboard();
-            } else {
-                const status = document.getElementById("login-status");
-                status.innerText = "Incorrect password. Try again.";
-                status.classList.add("error");
+            const status = document.getElementById("login-status");
+
+            status.innerText = "Authenticating...";
+            status.className = "form-status success";
+            status.style.display = "block";
+
+            try {
+                const response = await fetch('/api/portfolio', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ password: passwordInput })
+                });
+
+                if (response.ok) {
+                    sessionStorage.setItem("adminLoggedIn", "true");
+                    sessionStorage.setItem("adminPassword", passwordInput);
+                    loginWrapper.style.display = "none";
+                    dashboardContainer.style.display = "grid";
+                    status.style.display = "none";
+                    loadDashboard();
+                } else {
+                    const errData = await response.json();
+                    status.innerText = errData.error || "Incorrect password. Try again.";
+                    status.className = "form-status error";
+                    status.style.display = "block";
+                }
+            } catch (error) {
+                console.error("Auth error:", error);
+                status.innerText = "Connection error. Please try again.";
+                status.className = "form-status error";
                 status.style.display = "block";
             }
         });
@@ -316,7 +336,7 @@ async function saveAdminData(data) {
         localStorage.setItem("portfolioData", JSON.stringify(data));
         updateExportCode(data);
 
-        const passwordInput = document.getElementById("admin-password")?.value || sessionStorage.getItem("adminPassword") || "hussnain123";
+        const passwordInput = sessionStorage.getItem("adminPassword") || "";
         const response = await fetch('/api/portfolio', {
             method: 'POST',
             headers: {
