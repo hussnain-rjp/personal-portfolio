@@ -44,10 +44,15 @@ module.exports = async (req, res) => {
         }
 
         if (req.method === 'POST') {
-            const { password, content } = req.body;
+            const { password, content } = req.body || {};
 
-            const correctPassword = process.env.ADMIN_PASSWORD || 'musarahim';
-            if (password !== correctPassword) {
+            const correctPassword = process.env.ADMIN_PASSWORD;
+            if (!correctPassword) {
+                console.error("Server Configuration Error: ADMIN_PASSWORD environment variable is not configured.");
+                return res.status(500).json({ error: 'Server authentication configuration missing.' });
+            }
+
+            if (!password || password !== correctPassword) {
                 return res.status(401).json({ error: 'Unauthorized: Invalid password' });
             }
 
@@ -66,7 +71,7 @@ module.exports = async (req, res) => {
 
         return res.status(405).json({ error: 'Method not allowed' });
     } catch (error) {
-        console.error("API error:", error);
-        return res.status(500).json({ error: error.message });
+        console.error("API internal error log:", error);
+        return res.status(500).json({ error: 'An internal server error occurred. Please try again later.' });
     }
 };

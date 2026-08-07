@@ -23,3 +23,6 @@ yarn-error.log*
 .lighthouserc*
 *.db
 *.sqlite
+
+# Dependencies
+node_modules/

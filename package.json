@@ -4,6 +4,6 @@
   "description": "Muhammad Hussnain Akram Personal Portfolio",
   "main": "js/main.js",
   "dependencies": {
-    "mongodb": "^6.8.0"
+    "mongodb": "^6.18.0"
   }
 }

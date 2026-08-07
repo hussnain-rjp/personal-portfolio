@@ -31,10 +31,10 @@ My personal developer portfolio, showcasing my projects, skills, and experience 
 The Admin panel dashboard (`admin.html`) is hidden from public navigation:
 1. **Shortcut**: Press `Ctrl + Shift + A` (or `Cmd + Shift + A`) from any page to redirect instantly to the Admin gate.
 2. **Gesture**: Double-click or click 5 times on the navbar logo `MHA.Dev` (or the footer logo) within 3 seconds to trigger redirect.
-3. **Password Lock**: Authenticate using the password. By default, it is `musarahim` unless customized via the `ADMIN_PASSWORD` environment variable in Vercel.
+3. **Password Lock**: Authenticate using your secure password defined via the `ADMIN_PASSWORD` environment variable in Vercel or local `.env`.
 
 > [!WARNING]
-> This admin panel is synced with a MongoDB Atlas database. Ensure you configure the `ADMIN_PASSWORD` and `MONGODB_URI` environment variables in Vercel to secure the panel and establish a secure database connection.
+> This admin panel is synced with a MongoDB Atlas database. Ensure you configure the `ADMIN_PASSWORD` and `MONGODB_URI` environment variables in Vercel / `.env` to secure the panel and establish a secure database connection.
 
 ## 🚀 Getting Started (run locally)
 ```bash

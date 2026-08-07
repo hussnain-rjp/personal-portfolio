@@ -148,11 +148,41 @@ function fillFormFields(data) {
     document.getElementById("resume-experience").value = data.experience.map(e => `${e.role} | ${e.company} | ${e.period} | ${e.details}`).join("\n");
 }
 
-// Helper to compress and resize images to fit in localStorage and prevent export bloat
+// Constants for file upload security validation
+const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/avif'];
+const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024; // 5 MB
+
+// Helper to validate, compress, and resize images to fit in localStorage and prevent export bloat
 function compressAndResizeImage(file, maxWidth, maxHeight, callback) {
+    if (!file) return;
+
+    // 1. File Type / MIME Validation (Not just extension)
+    if (!ALLOWED_IMAGE_TYPES.includes(file.type.toLowerCase())) {
+        alert("Invalid file format. Only JPEG, PNG, WebP, GIF, and AVIF images are permitted.");
+        return;
+    }
+
+    // 2. File Size Validation
+    if (file.size > MAX_IMAGE_SIZE_BYTES) {
+        alert("File size exceeds 5MB limit. Please select a smaller image.");
+        return;
+    }
+
     const reader = new FileReader();
+    reader.onerror = () => {
+        console.error("FileReader error reading uploaded image");
+        alert("Failed to read the selected file. Please try again.");
+    };
+
     reader.onload = (e) => {
         const img = new Image();
+
+        // 3. Content Validation - Ensure browser image decoder can decode raster image
+        img.onerror = () => {
+            console.error("Image decode error - invalid image payload");
+            alert("The selected file could not be decoded as an image. Upload cancelled.");
+        };
+
         img.onload = () => {
             const canvas = document.createElement("canvas");
             let width = img.width;
@@ -176,7 +206,7 @@ function compressAndResizeImage(file, maxWidth, maxHeight, callback) {
             const ctx = canvas.getContext("2d");
             ctx.drawImage(img, 0, 0, width, height);
 
-            // Compress to JPEG with 0.7 quality
+            // Compress to JPEG with 0.7 quality to strip metadata and enforce safe raster image encoding
             const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.7);
             callback(compressedDataUrl);
         };
@@ -349,12 +379,12 @@ async function saveAdminData(data) {
         });
 
         if (!response.ok) {
-            const errData = await response.json();
+            const errData = await response.json().catch(() => ({}));
             throw new Error(errData.error || "Failed to update database.");
         }
     } catch (e) {
-        console.error("Storage/Sync error:", e);
-        alert("Saved locally, but failed to sync to MongoDB database: " + e.message);
+        console.error("Storage/Sync detailed error log:", e);
+        alert("Saved locally, but failed to sync with the database server. Please verify your authentication credentials and network connection.");
     }
 }
 
